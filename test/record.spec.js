@@ -1,7 +1,9 @@
 /* eslint-env mocha */
 'use strict'
 
-const expect = require('chai').expect
+const chai = require('chai')
+chai.use(require('dirty-chai'))
+const expect = chai.expect
 const crypto = require('libp2p-crypto')
 const waterfall = require('async/waterfall')
 const parallel = require('async/parallel')
@@ -65,7 +67,7 @@ describe('record', () => {
   it('encodeSigned', (done) => {
     const rec = new Record('hello2', new Buffer('world2'), id, date)
     rec.encodeSigned(key, (err, enc) => {
-      expect(err).to.not.exist
+      expect(err).to.not.exist()
 
       const dec = Record.decode(enc)
       expect(dec).to.have.property('key', 'hello2')
@@ -77,7 +79,7 @@ describe('record', () => {
       const blob = rec.blobForSignature()
 
       key.sign(blob, (err, signature) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
 
         expect(dec.signature).to.be.eql(signature)
         done()
@@ -90,7 +92,7 @@ describe('record', () => {
       const rec = new Record('hello', new Buffer('world'), id)
 
       rec.encodeSigned(key, (err, enc) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
 
         rec.verifySignature(key.public, done)
       })
@@ -99,7 +101,7 @@ describe('record', () => {
     it('invalid', (done) => {
       const rec = new Record('hello', new Buffer('world'), id)
       rec.encodeSigned(key, (err, enc) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
 
         rec.verifySignature(otherKey.public, (err) => {
           expect(err).to.match(/Invalid record signature/)

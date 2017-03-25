@@ -2,7 +2,9 @@
 /* eslint-env mocha */
 'use strict'
 
-var expect = require('chai').expect
+const chai = require('chai')
+chai.use(require('dirty-chai'))
+const expect = chai.expect
 const waterfall = require('async/waterfall')
 const each = require('async/each')
 const parallel = require('async/parallel')
@@ -86,18 +88,18 @@ describe('validator', () => {
           sign: false
         }
       }
-      validator.verifyRecord(validators, rec.encode(), done)
+      validator.verifyRecord(validators, rec, done)
     })
   })
 
   describe('isSigned', () => {
     it('returns false for missing validator', (done) => {
       makeRecord(key, '/hello', (err, rec) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         const validators = {}
 
         expect(
-          validator.isSigned(validators, rec.encode())
+          validator.isSigned(validators, rec)
         ).to.be.eql(
           false
         )
@@ -107,11 +109,11 @@ describe('validator', () => {
 
     it('throws on unkown validator', (done) => {
       makeRecord(key, '/hello/world', (err, rec) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         const validators = {}
 
         expect(
-          () => validator.isSigned(validators, rec.encode())
+          () => validator.isSigned(validators, rec)
         ).to.throw(
           /Invalid record keytype/
         )
@@ -130,16 +132,16 @@ describe('validator', () => {
         (cb) => makeRecord(key, '/hello/world', cb),
         (cb) => makeRecord(key, '/world/hello', cb)
       ], (err, recs) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
 
         expect(
-          validator.isSigned(validators, recs[0].encode())
+          validator.isSigned(validators, recs[0])
         ).to.be.eql(
           true
         )
 
         expect(
-          validator.isSigned(validators, recs[1].encode())
+          validator.isSigned(validators, recs[1])
         ).to.be.eql(
           false
         )
@@ -171,7 +173,7 @@ describe('validator', () => {
       it('throws on invalid records', (done) => {
         each(cases.invalid.publicKey, (k, cb) => {
           validator.validators.pk.func(k, key.public.bytes, (err) => {
-            expect(err).to.exist
+            expect(err).to.exist()
             cb()
           })
         }, done)
@@ -184,7 +186,7 @@ describe('validator', () => {
       const pubKey = crypto.unmarshalPublicKey(fixture.publicKey)
 
       pubKey.hash((err, hash) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         const k = `/pk/${mh.toB58String(hash)}`
 
         validator.validators.pk.func(k, pubKey.bytes, done)

@@ -1,19 +1,16 @@
 'use strict'
 
-const Record = require('./record')
-
 /**
  * Checks a record and ensures it is still valid.
  * It runs the needed validators.
  *
  * @param {Object} validators
- * @param {Buffer} record - The record in protobuf format
+ * @param {Record} record
  * @param {function(Error)} callback
  * @returns {undefined}
  */
 const verifyRecord = (validators, record, callback) => {
-  const dec = Record.decode(record)
-  const key = dec.key
+  const key = record.key
   const parts = key.split('/')
 
   if (parts.length < 3) {
@@ -27,19 +24,18 @@ const verifyRecord = (validators, record, callback) => {
     return callback(new Error('Invalid record keytype'))
   }
 
-  validator.func(key, dec.value, callback)
+  validator.func(key, record.value, callback)
 }
 
 /**
  * Check if a given record was signed.
  *
  * @param {Object} validators
- * @param {Buffer} record
+ * @param {Record} record
  * @returns {boolean}
  */
 const isSigned = (validators, record) => {
-  const dec = Record.decode(record)
-  const key = dec.key
+  const key = record.key
   const parts = key.split('/')
 
   if (parts.length < 3) {
