@@ -48,15 +48,23 @@ class Record {
    * @returns {Buffer}
    */
   encode () {
-    return pb.encode({
+    return pb.encode(this.prepareEncode())
+  }
+
+  /**
+   * Return the object format ready to be given to the protobuf library.
+   *
+   * @returns {Object}
+   */
+  prepareEncode () {
+    return {
       key: this.key,
       value: this.value,
       author: this.author.id,
       signature: this.signature,
       timeReceived: this.timeReceived && utils.toRFC3339(this.timeReceived)
-    })
+    }
   }
-
   /**
    * @param {PrivateKey} privKey
    * @param {function(Error, Buffer)} callback
@@ -91,20 +99,30 @@ class Record {
    */
   static decode (raw) {
     const dec = pb.decode(raw)
+    return Record.fromDecoded(dec)
+  }
+
+  /**
+   * Create a record from the raw object returnde from the
+   * protobuf library.
+   *
+   * @param {Object} obj
+   * @returns {Record}
+   */
+  static fromDecoded (obj) {
     let recvtime
-    if (dec.timeReceived) {
-      recvtime = utils.parseRFC3339(dec.timeReceived)
+    if (obj.timeReceived) {
+      recvtime = utils.parseRFC3339(obj.timeReceived)
     }
 
     const rec = new Record(
-      dec.key, dec.value, new PeerId(dec.author), recvtime
+      obj.key, obj.value, new PeerId(obj.author), recvtime
     )
 
-    rec.signature = dec.signature
+    rec.signature = obj.signature
 
     return rec
   }
-
   /**
    * Verify the signature of a record against the given public key.
    *

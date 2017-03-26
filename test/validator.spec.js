@@ -7,7 +7,6 @@ chai.use(require('dirty-chai'))
 const expect = chai.expect
 const waterfall = require('async/waterfall')
 const each = require('async/each')
-const parallel = require('async/parallel')
 const crypto = require('libp2p-crypto')
 const mh = require('multihashes')
 const PeerId = require('peer-id')
@@ -17,21 +16,6 @@ const validator = libp2pRecord.validator
 const Record = libp2pRecord.Record
 
 const fixture = require('./fixtures/go-key-records.js')
-
-const makeRecord = (key, k, callback) => {
-  PeerId.createFromPrivKey(key.bytes, (err, id) => {
-    if (err) {
-      return callback(err)
-    }
-    let rec
-    try {
-      rec = new Record(k, crypto.randomBytes(10), id)
-    } catch (err) {
-      return callback(err)
-    }
-    callback(null, rec)
-  })
-}
 
 const generateCases = (hash) => {
   return {
@@ -93,61 +77,43 @@ describe('validator', () => {
   })
 
   describe('isSigned', () => {
-    it('returns false for missing validator', (done) => {
-      makeRecord(key, '/hello', (err, rec) => {
-        expect(err).to.not.exist()
-        const validators = {}
+    it('returns false for missing validator', () => {
+      const validators = {}
 
-        expect(
-          validator.isSigned(validators, rec)
-        ).to.be.eql(
-          false
-        )
-        done()
-      })
+      expect(
+        validator.isSigned(validators, '/hello')
+      ).to.be.eql(
+        false
+      )
     })
 
-    it('throws on unkown validator', (done) => {
-      makeRecord(key, '/hello/world', (err, rec) => {
-        expect(err).to.not.exist()
-        const validators = {}
+    it('throws on unkown validator', () => {
+      const validators = {}
 
-        expect(
-          () => validator.isSigned(validators, rec)
-        ).to.throw(
+      expect(
+        () => validator.isSigned(validators, '/hello/world')
+      ).to.throw(
           /Invalid record keytype/
-        )
-
-        done()
-      })
+      )
     })
 
-    it('returns the value from the matching validator', (done) => {
+    it('returns the value from the matching validator', () => {
       const validators = {
         hello: {sign: true},
         world: {sign: false}
       }
 
-      parallel([
-        (cb) => makeRecord(key, '/hello/world', cb),
-        (cb) => makeRecord(key, '/world/hello', cb)
-      ], (err, recs) => {
-        expect(err).to.not.exist()
+      expect(
+        validator.isSigned(validators, '/hello/world')
+      ).to.be.eql(
+        true
+      )
 
-        expect(
-          validator.isSigned(validators, recs[0])
-        ).to.be.eql(
-          true
-        )
-
-        expect(
-          validator.isSigned(validators, recs[1])
-        ).to.be.eql(
-          false
-        )
-
-        done()
-      })
+      expect(
+        validator.isSigned(validators, '/world/hello')
+      ).to.be.eql(
+        false
+      )
     })
   })
 

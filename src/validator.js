@@ -28,14 +28,13 @@ const verifyRecord = (validators, record, callback) => {
 }
 
 /**
- * Check if a given record was signed.
+ * Check if a given key was signed.
  *
  * @param {Object} validators
- * @param {Record} record
+ * @param {string} key
  * @returns {boolean}
  */
-const isSigned = (validators, record) => {
-  const key = record.key
+const isSigned = (validators, key) => {
   const parts = key.split('/')
 
   if (parts.length < 3) {
