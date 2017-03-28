@@ -8,7 +8,6 @@ const expect = chai.expect
 const waterfall = require('async/waterfall')
 const each = require('async/each')
 const crypto = require('libp2p-crypto')
-const mh = require('multihashes')
 const PeerId = require('peer-id')
 
 const libp2pRecord = require('../src')
@@ -21,17 +20,23 @@ const generateCases = (hash) => {
   return {
     valid: {
       publicKey: [
-        `/pk/${mh.toB58String(hash)}`
+        Buffer.concat([
+          new Buffer('/pk/'),
+          hash
+        ])
       ]
     },
     invalid: {
       publicKey: [
         // missing hashkey
-        '/pk/',
+        new Buffer('/pk/'),
         // not the hash of a key
-        `/pk/${mh.toB58String(new Buffer('random'))}`,
+        Buffer.concat([
+          new Buffer('/pk/'),
+          new Buffer('random')
+        ]),
         // missing prefix
-        mh.toB58String(hash)
+        hash
       ]
     }
   }
@@ -59,7 +64,7 @@ describe('validator', () => {
 
   describe('verifyRecord', () => {
     it('calls matching validator', (done) => {
-      const k = '/hello/you'
+      const k = new Buffer('/hello/you')
       const rec = new Record(k, new Buffer('world'), new PeerId(hash))
 
       const validators = {
@@ -81,7 +86,7 @@ describe('validator', () => {
       const validators = {}
 
       expect(
-        validator.isSigned(validators, '/hello')
+        validator.isSigned(validators, new Buffer('/hello'))
       ).to.be.eql(
         false
       )
@@ -91,7 +96,7 @@ describe('validator', () => {
       const validators = {}
 
       expect(
-        () => validator.isSigned(validators, '/hello/world')
+        () => validator.isSigned(validators, new Buffer('/hello/world'))
       ).to.throw(
           /Invalid record keytype/
       )
@@ -104,7 +109,7 @@ describe('validator', () => {
       }
 
       expect(
-        validator.isSigned(validators, '/hello/world')
+        validator.isSigned(validators, new Buffer('/hello/world'))
       ).to.be.eql(
         true
       )
@@ -153,7 +158,10 @@ describe('validator', () => {
 
       pubKey.hash((err, hash) => {
         expect(err).to.not.exist()
-        const k = `/pk/${mh.toB58String(hash)}`
+        const k = Buffer.concat([
+          new Buffer('/pk/'),
+          hash
+        ])
 
         validator.validators.pk.func(k, pubKey.bytes, done)
       })

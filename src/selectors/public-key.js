@@ -5,7 +5,7 @@
  * Simply returns the first record, as all valid public key
  * records are equal.
  *
- * @param {string} k
+ * @param {Buffer} k
  * @param {Array<Buffer>} records
  * @returns {number}
  */

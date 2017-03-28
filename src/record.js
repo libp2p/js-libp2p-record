@@ -10,14 +10,14 @@ const utils = require('./utils')
 
 class Record {
   /**
-   * @param {string} [key]
+   * @param {Buffer} [key]
    * @param {Buffer} [value]
    * @param {PeerId} [author]
    * @param {Date} [recvtime]
    */
   constructor (key, value, author, recvtime) {
     if (key) {
-      assert(typeof key === 'string', 'key must be a string')
+      assert(Buffer.isBuffer(key), 'key must be a Buffer')
     }
 
     if (value) {

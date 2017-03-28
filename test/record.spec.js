@@ -43,21 +43,21 @@ describe('record', () => {
 
   it('new', () => {
     const rec = new Record(
-      'hello',
+      new Buffer('hello'),
       new Buffer('world'),
       id
     )
 
-    expect(rec).to.have.property('key', 'hello')
+    expect(rec).to.have.property('key').eql(new Buffer('hello'))
     expect(rec).to.have.property('value').eql(new Buffer('world'))
     expect(rec).to.have.property('author').eql(id)
   })
 
   it('encode & decode', () => {
-    const rec = new Record('hello', new Buffer('world'), id, date)
+    const rec = new Record(new Buffer('hello'), new Buffer('world'), id, date)
     const dec = Record.decode(rec.encode())
 
-    expect(dec).to.have.property('key', 'hello')
+    expect(dec).to.have.property('key').eql(new Buffer('hello'))
     expect(dec).to.have.property('value').eql(new Buffer('world'))
     expect(dec).to.have.property('author')
     expect(dec.author.id.equals(id.id)).to.be.eql(true)
@@ -65,12 +65,12 @@ describe('record', () => {
   })
 
   it('encodeSigned', (done) => {
-    const rec = new Record('hello2', new Buffer('world2'), id, date)
+    const rec = new Record(new Buffer('hello2'), new Buffer('world2'), id, date)
     rec.encodeSigned(key, (err, enc) => {
       expect(err).to.not.exist()
 
       const dec = Record.decode(enc)
-      expect(dec).to.have.property('key', 'hello2')
+      expect(dec).to.have.property('key').eql(new Buffer('hello2'))
       expect(dec).to.have.property('value').eql(new Buffer('world2'))
       expect(dec).to.have.property('author')
       expect(dec.author.id.equals(id.id)).to.be.eql(true)
@@ -89,7 +89,7 @@ describe('record', () => {
 
   describe('verifySignature', () => {
     it('valid', (done) => {
-      const rec = new Record('hello', new Buffer('world'), id)
+      const rec = new Record(new Buffer('hello'), new Buffer('world'), id)
 
       rec.encodeSigned(key, (err, enc) => {
         expect(err).to.not.exist()
@@ -99,7 +99,7 @@ describe('record', () => {
     })
 
     it('invalid', (done) => {
-      const rec = new Record('hello', new Buffer('world'), id)
+      const rec = new Record(new Buffer('hello'), new Buffer('world'), id)
       rec.encodeSigned(key, (err, enc) => {
         expect(err).to.not.exist()
 
@@ -114,14 +114,14 @@ describe('record', () => {
   describe('go interop', () => {
     it('no signature', () => {
       const dec = Record.decode(fixture.encoded)
-      expect(dec).to.have.property('key', 'hello')
+      expect(dec).to.have.property('key').eql(new Buffer('hello'))
       expect(dec).to.have.property('value').eql(new Buffer('world'))
       expect(dec).to.have.property('author')
     })
 
     it('with signature', () => {
       const dec = Record.decode(fixture.encodedSigned)
-      expect(dec).to.have.property('key', 'hello')
+      expect(dec).to.have.property('key').eql(new Buffer('hello'))
       expect(dec).to.have.property('value').eql(new Buffer('world'))
       expect(dec).to.have.property('author')
       expect(dec).to.have.property('signature')

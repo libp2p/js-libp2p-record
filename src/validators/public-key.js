@@ -1,6 +1,5 @@
 'use strict'
 
-const mh = require('multihashes')
 const setImmediate = require('async/setImmediate')
 const multihashing = require('multihashing-async')
 
@@ -9,7 +8,7 @@ const multihashing = require('multihashing-async')
  * Verifies that the passed in record value is the PublicKey
  * that matches the passed in key.
  *
- * @param {string} key - A valid key is of the form `'/pk/<keymultihash>'`
+ * @param {Buffer} key - A valid key is of the form `'/pk/<keymultihash>'`
  * @param {Buffer} publicKey - The public key to validate against (protobuf encoded).
  * @param {function(Error)} callback
  * @returns {undefined}
@@ -17,21 +16,21 @@ const multihashing = require('multihashing-async')
 const validatePublicKeyRecord = (key, publicKey, callback) => {
   const done = (err) => setImmediate(() => callback(err))
 
-  if (!key || !typeof key === 'string') {
-    return done(new Error('"key" must be a string'))
+  if (!Buffer.isBuffer(key)) {
+    return done(new Error('"key" must be a Buffer'))
   }
 
   if (key.length < 3) {
     return done(new Error('invalid public key record'))
   }
 
-  const prefix = key.slice(0, 4)
+  const prefix = key.slice(0, 4).toString()
 
   if (prefix !== '/pk/') {
     return done(new Error('key was not prefixed with /pk/'))
   }
 
-  const keyhash = mh.fromB58String(key.slice(4))
+  const keyhash = key.slice(4)
 
   multihashing(publicKey, 'sha2-256', (err, publicKeyHash) => {
     if (err) {

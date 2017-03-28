@@ -1,5 +1,7 @@
 'use strict'
 
+const bsplit = require('buffer-split')
+
 /**
  * Checks a record and ensures it is still valid.
  * It runs the needed validators.
@@ -11,14 +13,14 @@
  */
 const verifyRecord = (validators, record, callback) => {
   const key = record.key
-  const parts = key.split('/')
+  const parts = bsplit(key, new Buffer('/'))
 
   if (parts.length < 3) {
     // No validator available
     return callback()
   }
 
-  const validator = validators[parts[1]]
+  const validator = validators[parts[1].toString()]
 
   if (!validator) {
     return callback(new Error('Invalid record keytype'))
@@ -31,18 +33,18 @@ const verifyRecord = (validators, record, callback) => {
  * Check if a given key was signed.
  *
  * @param {Object} validators
- * @param {string} key
+ * @param {Buffer} key
  * @returns {boolean}
  */
 const isSigned = (validators, key) => {
-  const parts = key.split('/')
+  const parts = bsplit(key, new Buffer('/'))
 
   if (parts.length < 3) {
     // No validator available
     return false
   }
 
-  const validator = validators[parts[1]]
+  const validator = validators[parts[1].toString()]
 
   if (!validator) {
     throw new Error('Invalid record keytype')
