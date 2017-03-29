@@ -47,8 +47,8 @@ class Record {
   /**
    * @returns {Buffer}
    */
-  encode () {
-    return pb.encode(this.prepareEncode())
+  serialize () {
+    return pb.encode(this.prepareSerialize())
   }
 
   /**
@@ -56,7 +56,7 @@ class Record {
    *
    * @returns {Object}
    */
-  prepareEncode () {
+  prepareSerialize () {
     return {
       key: this.key,
       value: this.value,
@@ -70,7 +70,7 @@ class Record {
    * @param {function(Error, Buffer)} callback
    * @returns {undefined}
    */
-  encodeSigned (privKey, callback) {
+  serializeSigned (privKey, callback) {
     const blob = this.blobForSignature()
 
     privKey.sign(blob, (err, signature) => {
@@ -82,7 +82,7 @@ class Record {
 
       let rec
       try {
-        rec = this.encode()
+        rec = this.serialize()
       } catch (err) {
         return callback(err)
       }
@@ -97,9 +97,9 @@ class Record {
    * @param {Buffer} raw
    * @returns {Record}
    */
-  static decode (raw) {
+  static deserialize (raw) {
     const dec = pb.decode(raw)
-    return Record.fromDecoded(dec)
+    return Record.fromDeserialized(dec)
   }
 
   /**
@@ -109,14 +109,19 @@ class Record {
    * @param {Object} obj
    * @returns {Record}
    */
-  static fromDecoded (obj) {
+  static fromDeserialized (obj) {
     let recvtime
     if (obj.timeReceived) {
       recvtime = utils.parseRFC3339(obj.timeReceived)
     }
 
+    let author
+    if (obj.author) {
+      author = new PeerId(obj.author)
+    }
+
     const rec = new Record(
-      obj.key, obj.value, new PeerId(obj.author), recvtime
+      obj.key, obj.value, author, recvtime
     )
 
     rec.signature = obj.signature
