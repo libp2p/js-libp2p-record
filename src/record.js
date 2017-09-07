@@ -1,7 +1,6 @@
 'use strict'
 
 const protons = require('protons')
-const Buffer = require('safe-buffer').Buffer
 const assert = require('assert')
 const PeerId = require('peer-id')
 
