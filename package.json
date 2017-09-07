@@ -52,7 +52,7 @@
     "multihashes": "~0.4.9",
     "multihashing-async": "~0.4.6",
     "peer-id": "~0.10.0",
-    "protocol-buffers": "^3.2.1",
+    "protons": "^1.0.0",
     "safe-buffer": "^5.1.1"
   },
   "contributors": [
