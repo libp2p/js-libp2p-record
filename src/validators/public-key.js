@@ -3,8 +3,6 @@
 const setImmediate = require('async/setImmediate')
 const multihashing = require('multihashing-async')
 
-const errcode = require('err-code')
-
 /**
  * Validator for publick key records.
  * Verifies that the passed in record value is the PublicKey
@@ -19,23 +17,17 @@ const validatePublicKeyRecord = (key, publicKey, callback) => {
   const done = (err) => setImmediate(() => callback(err))
 
   if (!Buffer.isBuffer(key)) {
-    const errMsg = `"key" must be a Buffer`
-
-    return done(errcode(new Error(errMsg), 'ERR_INVALID_KEY'))
+    return done(new Error('"key" must be a Buffer'))
   }
 
   if (key.length < 3) {
-    const errMsg = 'invalid public key record'
-
-    return done(errcode(new Error(errMsg), 'ERR_INVALID_PUBLIC_KEY'))
+    return done(new Error('invalid public key record'))
   }
 
   const prefix = key.slice(0, 4).toString()
 
   if (prefix !== '/pk/') {
-    const errMsg = 'key was not prefixed with /pk/'
-
-    return done(errcode(new Error(errMsg), 'ERR_INVALID_KEY_PREFIX'))
+    return done(new Error('key was not prefixed with /pk/'))
   }
 
   const keyhash = key.slice(4)
@@ -46,9 +38,7 @@ const validatePublicKeyRecord = (key, publicKey, callback) => {
     }
 
     if (!keyhash.equals(publicKeyHash)) {
-      const errMsg = 'public key does not match passed in key'
-
-      return done(errcode(new Error(errMsg), 'ERR_PUBLIC_KEY_NOT_MATCHING_KEY'))
+      return done(new Error('public key does not match passed in key'))
     }
 
     done()
