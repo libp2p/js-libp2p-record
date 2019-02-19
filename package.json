@@ -41,16 +41,15 @@
     "aegir": "^18.2.2",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "libp2p-crypto": "~0.16.1",
-    "peer-id": "~0.12.2",
+    "libp2p-crypto": "libp2p/js-libp2p-crypto#feat/async-await",
+    "peer-id": "libp2p/js-peer-id#feat/async-await",
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
-    "async": "^2.6.2",
     "buffer-split": "^1.0.0",
     "err-code": "^1.1.2",
     "multihashes": "~0.4.14",
-    "multihashing-async": "~0.6.0",
+    "multihashing-async": "multiformats/js-multihashing-async#feat/async-iterators",
     "protons": "^1.0.1"
   },
   "contributors": [

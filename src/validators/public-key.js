@@ -1,48 +1,39 @@
 'use strict'
 
-const setImmediate = require('async/setImmediate')
 const multihashing = require('multihashing-async')
 
 /**
  * Validator for publick key records.
  * Verifies that the passed in record value is the PublicKey
  * that matches the passed in key.
+ * If validation fails the returned Promise will reject with the error.
  *
  * @param {Buffer} key - A valid key is of the form `'/pk/<keymultihash>'`
  * @param {Buffer} publicKey - The public key to validate against (protobuf encoded).
- * @param {function(Error)} callback
- * @returns {undefined}
+ * @returns {Promise}
  */
-const validatePublicKeyRecord = (key, publicKey, callback) => {
-  const done = (err) => setImmediate(() => callback(err))
-
+const validatePublicKeyRecord = async (key, publicKey) => {
   if (!Buffer.isBuffer(key)) {
-    return done(new Error('"key" must be a Buffer'))
+    throw new Error('"key" must be a Buffer')
   }
 
   if (key.length < 3) {
-    return done(new Error('invalid public key record'))
+    throw new Error('invalid public key record')
   }
 
   const prefix = key.slice(0, 4).toString()
 
   if (prefix !== '/pk/') {
-    return done(new Error('key was not prefixed with /pk/'))
+    throw new Error('key was not prefixed with /pk/')
   }
 
   const keyhash = key.slice(4)
 
-  multihashing(publicKey, 'sha2-256', (err, publicKeyHash) => {
-    if (err) {
-      return done(err)
-    }
+  const publicKeyHash = await multihashing(publicKey, 'sha2-256')
 
-    if (!keyhash.equals(publicKeyHash)) {
-      return done(new Error('public key does not match passed in key'))
-    }
-
-    done()
-  })
+  if (!keyhash.equals(publicKeyHash)) {
+    throw new Error('public key does not match passed in key')
+  }
 }
 
 module.exports = {
