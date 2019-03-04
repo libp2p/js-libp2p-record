@@ -1,6 +1,7 @@
 'use strict'
 
 const multihashing = require('multihashing-async')
+const errcode = require('err-code')
 
 /**
  * Validator for publick key records.
@@ -14,17 +15,17 @@ const multihashing = require('multihashing-async')
  */
 const validatePublicKeyRecord = async (key, publicKey) => {
   if (!Buffer.isBuffer(key)) {
-    throw new Error('"key" must be a Buffer')
+    throw errcode('"key" must be a Buffer', 'ERR_INVALID_RECORD_KEY_NOT_BUFFER')
   }
 
-  if (key.length < 3) {
-    throw new Error('invalid public key record')
+  if (key.length < 5) {
+    throw errcode('invalid public key record', 'ERR_INVALID_RECORD_KEY_TOO_SHORT')
   }
 
   const prefix = key.slice(0, 4).toString()
 
   if (prefix !== '/pk/') {
-    throw new Error('key was not prefixed with /pk/')
+    throw errcode('key was not prefixed with /pk/', 'ERR_INVALID_RECORD_KEY_BAD_PREFIX')
   }
 
   const keyhash = key.slice(4)
@@ -32,7 +33,7 @@ const validatePublicKeyRecord = async (key, publicKey) => {
   const publicKeyHash = await multihashing(publicKey, 'sha2-256')
 
   if (!keyhash.equals(publicKeyHash)) {
-    throw new Error('public key does not match passed in key')
+    throw errcode('public key does not match passed in key', 'ERR_INVALID_RECORD_HASH_MISMATCH')
   }
 }
 

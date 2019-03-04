@@ -27,14 +27,16 @@ const generateCases = (hash) => {
     invalid: {
       publicKey: [
         // missing hashkey
-        Buffer.from('/pk/'),
+        [Buffer.from('/pk/'), 'ERR_INVALID_RECORD_KEY_TOO_SHORT'],
         // not the hash of a key
-        Buffer.concat([
+        [Buffer.concat([
           Buffer.from('/pk/'),
           Buffer.from('random')
-        ]),
+        ]), 'ERR_INVALID_RECORD_HASH_MISMATCH'],
         // missing prefix
-        hash
+        [hash, 'ERR_INVALID_RECORD_KEY_BAD_PREFIX'],
+        // not a buffer
+        ['not a buffer', 'ERR_INVALID_RECORD_KEY_NOT_BUFFER']
       ]
     }
   }
@@ -103,17 +105,21 @@ describe('validator', () => {
       })
 
       it('does not error on valid record', () => {
-        return Promise.all(cases.valid.publicKey, (k) => {
+        return Promise.all(cases.valid.publicKey.map((k) => {
           return validator.validators.pk.func(k, key.public.bytes)
-        })
+        }))
       })
 
       it('throws on invalid records', () => {
-        return Promise.all(cases.invalid.publicKey, (k) => {
-          return expect(
-            () => validator.validators.pk.func(k, key.public.bytes)
-          ).to.throw()
-        })
+        return Promise.all(cases.invalid.publicKey.map(async ([k, errCode]) => {
+          try {
+            await validator.validators.pk.func(k, key.public.bytes)
+          } catch (err) {
+            expect(err.code).to.eql(errCode)
+            return
+          }
+          expect.fail('did not throw an error with code ' + errCode)
+        }))
       })
     })
   })

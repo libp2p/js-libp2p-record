@@ -26,7 +26,7 @@ const verifyRecord = (validators, record) => {
   if (!validator) {
     const errMsg = `Invalid record keytype`
 
-    throw errcode(new Error(errMsg), 'ERR_INVALID_RECORD_KEY_TYPE')
+    throw errcode(errMsg, 'ERR_INVALID_RECORD_KEY_TYPE')
   }
 
   return validator.func(key, record.value)
