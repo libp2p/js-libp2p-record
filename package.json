@@ -27,9 +27,8 @@
     "node": ">=6.0.0",
     "npm": ">=3.0.0"
   },
-  "pre-commit": [
-    "lint",
-    "test"
+  "pre-push": [
+    "lint"
   ],
   "author": "Friedel Ziegelmayer <dignifiedquire@gmail.com>",
   "license": "MIT",
@@ -38,18 +37,17 @@
   },
   "homepage": "https://github.com/libp2p/js-libp2p-record",
   "devDependencies": {
-    "aegir": "^18.2.2",
+    "aegir": "^20.0.0",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "libp2p-crypto": "libp2p/js-libp2p-crypto#feat/async-await",
-    "peer-id": "libp2p/js-peer-id#feat/async-await",
-    "pre-commit": "^1.2.2"
+    "libp2p-crypto": "~0.17.0",
+    "peer-id": "~0.13.2"
   },
   "dependencies": {
     "buffer-split": "^1.0.0",
     "err-code": "^1.1.2",
-    "multihashes": "~0.4.14",
-    "multihashing-async": "multiformats/js-multihashing-async#feat/async-iterators",
+    "multihashes": "~0.4.15",
+    "multihashing-async": "~0.7.0",
     "protons": "^1.0.1"
   },
   "contributors": [
