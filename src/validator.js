@@ -2,7 +2,7 @@
 
 const bsplit = require('buffer-split')
 const errcode = require('err-code')
-
+const { Buffer } = require('buffer')
 /**
  * Checks a record and ensures it is still valid.
  * It runs the needed validators.
