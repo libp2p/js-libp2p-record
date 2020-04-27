@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset='utf-8'>
-  <title>libp2p-record 0.7.2 | Documentation</title>
+  <title>libp2p-record 0.7.3 | Documentation</title>
   <meta name='description' content='libp2p record implementation'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet'>
@@ -15,11 +15,14 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>libp2p-record</h3>
-          <div class='mb1'><code>0.7.2</code></div>
+          <div class='mb1'><code>0.7.3</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
             class='col12 block input'
+            spellcheck='false'
+            autocapitalize='off'
+            autocorrect='off'
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
@@ -168,10 +171,10 @@
 <p>You can then <code>require()</code> libp2p-record as normal:</p>
 <pre class='hljs'><span class="hljs-keyword">const</span> libp2PRecord = <span class="hljs-built_in">require</span>(<span class="hljs-string">'libp2p-record'</span>)</pre>
 <h2>In the Browser</h2>
-<p>Libp2p-record should work in any ES2015 environment out of the box.</p>
+<p><code>libp2p-record</code> should work in any ECMAScript 2018 environment out of the box.</p>
 <p>Usage:</p>
 <pre class='hljs'><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></pre>
-<p>The portable versions of libp2p-record, including <code>index.js</code> and <code>index.min.js</code>, are included in the <code>/dist</code> folder. Libp2p-record can also be found on <a href="https://unpkg.com">unpkg.com</a> under</p>
+<p>The portable versions of <code>libp2p-record</code>, including <code>index.js</code> and <code>index.min.js</code>, are included in the <code>/dist</code> folder. <code>libp2p-record</code> can also be found on <a href="https://unpkg.com">unpkg.com</a> under</p>
 <ul>
 <li><a href="https://unpkg.com/libp2p-record/dist/index.min.js">https://unpkg.com/libp2p-record/dist/index.min.js</a></li>
 <li><a href="https://unpkg.com/libp2p-record/dist/index.js">https://unpkg.com/libp2p-record/dist/index.js</a></li>
@@ -192,7 +195,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/record.js#L14-L26'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/record.js#L14-L26'>
       <span>src/record.js</span>
       </a>
     
@@ -257,6 +260,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -272,7 +277,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/record.js#L31-L33'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/record.js#L31-L33'>
       <span>src/record.js</span>
       </a>
     
@@ -316,6 +321,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -331,7 +338,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/record.js#L40-L46'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/record.js#L40-L46'>
       <span>src/record.js</span>
       </a>
     
@@ -376,6 +383,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -391,7 +400,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/record.js#L54-L57'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/record.js#L54-L57'>
       <span>src/record.js</span>
       </a>
     
@@ -449,6 +458,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -464,7 +475,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/record.js#L65-L76'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/record.js#L65-L76'>
       <span>src/record.js</span>
       </a>
     
@@ -522,6 +533,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -537,7 +550,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/utils.js#L10-L21'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/utils.js#L10-L21'>
       <span>src/utils.js</span>
       </a>
     
@@ -596,6 +609,8 @@ string.</p>
   
 
   
+
+  
 </section>
 
           
@@ -611,7 +626,7 @@ string.</p>
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/utils.js#L30-L54'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/utils.js#L30-L54'>
       <span>src/utils.js</span>
       </a>
     
@@ -670,6 +685,8 @@ JavaScript Date object.</p>
   
 
   
+
+  
 </section>
 
           
@@ -685,7 +702,7 @@ JavaScript Date object.</p>
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/validator.js#L15-L33'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/validator.js#L13-L31'>
       <span>src/validator.js</span>
       </a>
     
@@ -753,6 +770,8 @@ If verification fails the returned Promise will reject with the error.</p>
   
 
   
+
+  
 </section>
 
           
@@ -768,7 +787,7 @@ If verification fails the returned Promise will reject with the error.</p>
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/validators/public-key.js#L16-L38'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/validators/public-key.js#L16-L38'>
       <span>src/validators/public-key.js</span>
       </a>
     
@@ -840,6 +859,8 @@ If validation fails the returned Promise will reject with the error.</p>
   
 
   
+
+  
 </section>
 
           
@@ -855,7 +876,7 @@ If validation fails the returned Promise will reject with the error.</p>
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/selection.js#L14-L38'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/selection.js#L12-L36'>
       <span>src/selection.js</span>
       </a>
     
@@ -929,6 +950,8 @@ If validation fails the returned Promise will reject with the error.</p>
   
 
   
+
+  
 </section>
 
           
@@ -944,7 +967,7 @@ If validation fails the returned Promise will reject with the error.</p>
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/429a33532f225bf48ca4757aa91775c0eadb96ba/src/selectors/public-key.js#L12-L14'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-record/blob/3f80d69988d2fd089fbbe21775974d650af90a26/src/selectors/public-key.js#L12-L14'>
       <span>src/selectors/public-key.js</span>
       </a>
     
@@ -999,6 +1022,8 @@ records are equal.</p>
 
       
     
+  
+
   
 
   
