@@ -1,5 +1,10 @@
 'use strict'
 
+const TextDecoder = require('ipfs-utils/src/text-decoder')
+const utf8Decoder = new TextDecoder('utf8')
+
+module.exports.utf8Decoder = utf8Decoder
+
 /**
  * Convert a JavaScript date into an `RFC3339Nano` formatted
  * string.
