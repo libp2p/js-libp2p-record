@@ -11,11 +11,11 @@ class Record {
    * @param {Date} [recvtime]
    */
   constructor (key, value, recvtime) {
-    if (key && !(key instanceof Uint8Array)) {
+    if (!(key instanceof Uint8Array)) {
       throw new Error('key must be a Uint8Array')
     }
 
-    if (value && !(value instanceof Uint8Array)) {
+    if (!(value instanceof Uint8Array)) {
       throw new Error('value must be a Uint8Array')
     }
 

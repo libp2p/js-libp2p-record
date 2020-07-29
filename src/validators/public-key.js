@@ -22,9 +22,9 @@ const validatePublicKeyRecord = async (key, publicKey) => {
     throw errcode(new Error('invalid public key record'), 'ERR_INVALID_RECORD_KEY_TOO_SHORT')
   }
 
-  const keyString = utf8Decoder.decode(key)
+  const prefix = utf8Decoder.decode(key.subarray(0, 4))
 
-  if (!keyString.startsWith('/pk/')) {
+  if (prefix !== '/pk/') {
     throw errcode(new Error('key was not prefixed with /pk/'), 'ERR_INVALID_RECORD_KEY_BAD_PREFIX')
   }
 
