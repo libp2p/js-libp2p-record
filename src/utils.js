@@ -57,3 +57,21 @@ module.exports.parseRFC3339 = (time) => {
 
   return new Date(Date.UTC(year, month, date, hour, minute, second, millisecond))
 }
+
+module.exports.uint8ArraysEqual = (arr1, arr2) => {
+  if (arr1 === arr2) {
+    return true
+  }
+
+  if (arr1.byteLength !== arr2.byteLength) {
+    return false
+  }
+
+  for (let i = 0; i < arr1.byteLength; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false
+    }
+  }
+
+  return true
+}

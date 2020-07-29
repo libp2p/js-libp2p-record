@@ -2,9 +2,10 @@
 
 const multihashing = require('multihashing-async')
 const errcode = require('err-code')
-const { utf8Decoder } = require('../utils')
+const { utf8Decoder, uint8ArraysEqual } = require('../utils')
+
 /**
- * Validator for publick key records.
+ * Validator for public key records.
  * Verifies that the passed in record value is the PublicKey
  * that matches the passed in key.
  * If validation fails the returned Promise will reject with the error.
@@ -32,7 +33,7 @@ const validatePublicKeyRecord = async (key, publicKey) => {
 
   const publicKeyHash = await multihashing(publicKey, 'sha2-256')
 
-  if (!keyhash.every((val, i) => val === publicKeyHash[i])) {
+  if (!uint8ArraysEqual(keyhash, publicKeyHash)) {
     throw errcode(new Error('public key does not match passed in key'), 'ERR_INVALID_RECORD_HASH_MISMATCH')
   }
 }
