@@ -1,12 +1,11 @@
-'use strict'
-module.exports = `// Record represents a dht record that contains a value
+// Record represents a dht record that contains a value
 // for a key value pair
 message Record {
   // The key that references this record
-  bytes key = 1;
+  optional bytes key = 1;
 
   // The actual value this record is storing
-  bytes value = 2;
+  optional bytes value = 2;
 
   // Note: These fields were removed from the Record message
   // hash of the authors public key
@@ -16,4 +15,4 @@ message Record {
 
   // Time the record was received, set by receiver
   optional string timeReceived = 5;
-}`
+}
