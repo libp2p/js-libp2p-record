@@ -1,21 +1,14 @@
-'use strict'
+import {
+  Record as PBRecord
+} from './record.js'
+import * as utils from './utils.js'
 
-const {
-  Record: PBRecord
-} = require('./record')
-const utils = require('../utils')
+export class Libp2pRecord {
+  public key: Uint8Array
+  public value: Uint8Array
+  public timeReceived?: Date
 
-/**
- * @typedef {{ key: Uint8Array, value: Uint8Array, timeReceived: string }} ProtobufRecord
- */
-
-class Record {
-  /**
-   * @param {Uint8Array} [key]
-   * @param {Uint8Array} [value]
-   * @param {Date} [timeReceived]
-   */
-  constructor (key, value, timeReceived) {
+  constructor (key: Uint8Array, value: Uint8Array, timeReceived?: Date) {
     if (!(key instanceof Uint8Array)) {
       throw new Error('key must be a Uint8Array')
     }
@@ -40,18 +33,16 @@ class Record {
     return {
       key: this.key,
       value: this.value,
-      timeReceived: this.timeReceived && utils.toRFC3339(this.timeReceived)
+      timeReceived: this.timeReceived != null ? utils.toRFC3339(this.timeReceived) : undefined
     }
   }
 
   /**
-   * Decode a protobuf encoded record.
-   *
-   * @param {Uint8Array} raw
+   * Decode a protobuf encoded record
    */
-  static deserialize (raw) {
+  static deserialize (raw: Uint8Array) {
     const message = PBRecord.decode(raw)
-    return Record.fromDeserialized(PBRecord.toObject(message, {
+    return Libp2pRecord.fromDeserialized(PBRecord.toObject(message, {
       defaults: false,
       arrays: true,
       longs: Number,
@@ -60,22 +51,18 @@ class Record {
   }
 
   /**
-   * Create a record from the raw object returned from the protobuf library.
-   *
-   * @param {{ [k: string]: any }} obj
+   * Create a record from the raw object returned from the protobuf library
    */
-  static fromDeserialized (obj) {
+  static fromDeserialized (obj: Record<string, any>) {
     let recvtime
-    if (obj.timeReceived) {
+    if (obj.timeReceived != null) {
       recvtime = utils.parseRFC3339(obj.timeReceived)
     }
 
-    const rec = new Record(
+    const rec = new Libp2pRecord(
       obj.key, obj.value, recvtime
     )
 
     return rec
   }
 }
-
-module.exports = Record
