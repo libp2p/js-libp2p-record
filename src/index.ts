@@ -1,4 +1,5 @@
 import {
+  IRecord,
   Record as PBRecord
 } from './record.js'
 import * as utils from './utils.js'
@@ -53,10 +54,18 @@ export class Libp2pRecord {
   /**
    * Create a record from the raw object returned from the protobuf library
    */
-  static fromDeserialized (obj: Record<string, any>) {
+  static fromDeserialized (obj: IRecord) {
     let recvtime
     if (obj.timeReceived != null) {
       recvtime = utils.parseRFC3339(obj.timeReceived)
+    }
+
+    if (obj.key == null) {
+      throw new Error('key missing from deserialized object')
+    }
+
+    if (obj.value == null) {
+      throw new Error('value missing from deserialized object')
     }
 
     const rec = new Libp2pRecord(
