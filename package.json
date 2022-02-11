@@ -155,8 +155,8 @@
     "test:firefox-webworker": "npm run test -- -t webworker -- --browser firefox",
     "build": "tsc",
     "postbuild": "npm run build:copy-proto-files",
-    "build:proto": "pbjs -t static-module -w es6 -r libp2p-record --force-number --no-verify --no-delimited --no-create --no-beautify --no-defaults --lint eslint-disable -o src/record/record.js ./src/record/record.proto",
-    "build:proto-types": "pbts -o src/record/record.d.ts src/record/record.js",
+    "generate:proto": "pbjs -t static-module -w es6 -r libp2p-record --force-number --no-verify --no-delimited --no-create --no-beautify --no-defaults --lint eslint-disable -o src/record/record.js ./src/record/record.proto",
+    "generate:proto-types": "pbts -o src/record/record.d.ts src/record/record.js",
     "build:copy-proto-files": "cp src/record* dist/src",
     "release": "semantic-release"
   },
@@ -168,9 +168,7 @@
   },
   "devDependencies": {
     "@libp2p/crypto": "^0.22.7",
-    "@libp2p/interfaces": "^1.1.1",
-    "aegir": "^36.1.3",
-    "npm-run-all": "^4.1.5",
-    "util": "^0.12.4"
+    "@libp2p/interfaces": "^1.3.3",
+    "aegir": "^36.1.3"
   }
 }
