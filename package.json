@@ -45,12 +45,15 @@
   ],
   "exports": {
     ".": {
+      "types": "./src/index.d.ts",
       "import": "./dist/src/index.js"
     },
     "./selectors": {
+      "types": "./dist/src/selectors.d.ts",
       "import": "./dist/src/selectors.js"
     },
     "./validators": {
+      "types": "./dist/src/validators.d.ts",
       "import": "./dist/src/validators.js"
     }
   },
