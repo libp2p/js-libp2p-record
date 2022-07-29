@@ -165,7 +165,7 @@
     "@libp2p/interface-dht": "^1.0.0",
     "err-code": "^3.0.1",
     "multiformats": "^9.4.5",
-    "protons-runtime": "^1.0.2",
+    "protons-runtime": "^2.0.1",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
