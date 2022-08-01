@@ -169,7 +169,7 @@
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
-    "@libp2p/crypto": "^0.22.10",
+    "@libp2p/crypto": "^1.0.1",
     "aegir": "^37.0.13",
     "protons": "^3.0.2"
   }
