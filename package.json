@@ -176,6 +176,6 @@
   "devDependencies": {
     "@libp2p/crypto": "^1.0.2",
     "aegir": "^37.0.13",
-    "protons": "^4.0.1"
+    "protons": "^5.0.0"
   }
 }
