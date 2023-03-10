@@ -154,7 +154,7 @@
   "scripts": {
     "clean": "aegir clean",
     "lint": "aegir lint",
-    "dep-check": "aegir dep-check",
+    "dep-check": "aegir dep-check -i protons",
     "test": "aegir test",
     "test:node": "aegir test -t node",
     "test:chrome": "aegir test -t browser",

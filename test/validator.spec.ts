@@ -62,7 +62,7 @@ describe('validator', () => {
   })
 
   describe('verifyRecord', () => {
-    it('calls matching validator', () => {
+    it('calls matching validator', async () => {
       const k = uint8ArrayFromString('/hello/you')
       const rec = new Libp2pRecord(k, uint8ArrayFromString('world'), new Date())
 
@@ -72,7 +72,7 @@ describe('validator', () => {
           expect(value).to.eql(uint8ArrayFromString('world'))
         }
       }
-      return validator.verifyRecord(validators, rec)
+      await validator.verifyRecord(validators, rec)
     })
 
     it('calls not matching any validator', () => {
@@ -86,7 +86,7 @@ describe('validator', () => {
         }
       }
       return expect(
-        () => validator.verifyRecord(validators, rec)
+        async () => { await validator.verifyRecord(validators, rec) }
       ).to.throw(
         /Invalid record keytype/
       )
@@ -107,7 +107,7 @@ describe('validator', () => {
 
       it('does not error on valid record', async () => {
         return await Promise.all(cases.valid.publicKey.map(async (k) => {
-          return await validator.validators.pk(k, key.public.bytes)
+          await validator.validators.pk(k, key.public.bytes)
         }))
       })
 
@@ -132,7 +132,7 @@ describe('validator', () => {
 
       const hash = await pubKey.hash()
       const k = Uint8Array.of(...uint8ArrayFromString('/pk/'), ...hash)
-      return await validator.validators.pk(k, pubKey.bytes)
+      await validator.validators.pk(k, pubKey.bytes)
     })
   })
 })
