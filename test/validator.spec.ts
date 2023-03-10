@@ -75,7 +75,7 @@ describe('validator', () => {
       await validator.verifyRecord(validators, rec)
     })
 
-    it('calls not matching any validator', () => {
+    it('calls not matching any validator', async () => {
       const k = uint8ArrayFromString('/hallo/you')
       const rec = new Libp2pRecord(k, uint8ArrayFromString('world'), new Date())
 
@@ -85,11 +85,10 @@ describe('validator', () => {
           expect(value).to.eql(uint8ArrayFromString('world'))
         }
       }
-      return expect(
-        async () => { await validator.verifyRecord(validators, rec) }
-      ).to.throw(
-        /Invalid record keytype/
-      )
+      await expect(validator.verifyRecord(validators, rec))
+        .to.eventually.rejectedWith(
+          /Invalid record keytype/
+        )
     })
   })
 
